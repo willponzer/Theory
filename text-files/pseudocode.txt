@@ -1,0 +1,35 @@
+/* Pseudocode for the Caesar Cipher functions */
+
+/* Helper Function: Convert a string to uppercase */
+function toUpper(str):
+    result ← ""
+    for each character c in str:
+        if c is a lowercase letter then
+            result ← result + uppercase(c)
+        else
+            result ← result + c
+    return result
+
+/* Encryption Function: Shift letters by a given value */
+function encrypt(str, shift):
+    str ← toUpper(str)
+    encrypted ← ""
+    for each character c in str:
+        if c is a letter between 'A' and 'Z' then
+            // Convert letter to a 0–25 index, add shift, wrap using mod 26, and convert back to a letter.
+            newChar ← ((ord(c) - ord('A') + shift) mod 26) + ord('A')
+            encrypted ← encrypted + character(newChar)
+        else
+            encrypted ← encrypted + c
+    return encrypted
+
+/* Decryption Function: Reverse the encryption */
+function decrypt(str, shift):
+    // Decryption is encryption with an adjusted (negative) shift.
+    return encrypt(str, (26 - (shift mod 26)) mod 26)
+
+/* Solve Function: Try all shifts up to a maximum */
+function solve(str, maxShift):
+    for shift from 0 to maxShift do:
+        candidate ← decrypt(str, shift)
+        print "Caesar", shift, ":", candidate
